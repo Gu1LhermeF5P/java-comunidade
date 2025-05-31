@@ -1,7 +1,7 @@
 package com.comu.comunidade_java.config;
 
 import com.comu.comunidade_java.security.JwtAuthenticationFilter;
-import com.comu.comunidade_java.security.UserDetailsServiceImpl; 
+// import com.comu.comunidade_java.security.UserDetailsServiceImpl; // Import removido pois não era usado diretamente aqui
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,30 +19,25 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(prePostEnabled = true) // Habilita @PreAuthorize, etc.
+@EnableMethodSecurity(prePostEnabled = true) 
 public class SecurityConfig {
 
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    // @Autowired
-    // private UserDetailsServiceImpl userDetailsService; // Descomente quando UserDetailsServiceImpl for criado
+    // O UserDetailsServiceImpl é injetado diretamente no JwtAuthenticationFilter
+    // e usado pelo Spring Security através da interface UserDetailsService,
+    // então não precisamos de injetá-lo explicitamente aqui para esta configuração.
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorize -> authorize
-                // Endpoints públicos (autenticação, documentação Swagger)
-                .requestMatchers("/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                // Permitir GET em boletins para todos
-                .requestMatchers(HttpMethod.GET, "/api/boletins", "/api/boletins/**").permitAll()
-                // Outras operações em boletins podem exigir autenticação ou roles específicas
-                // Exemplo: .requestMatchers(HttpMethod.POST, "/api/boletins").hasRole("USER")
-                // Exemplo: .requestMatchers(HttpMethod.PUT, "/api/boletins/**").hasRole("ADMIN")
-                // Exemplo: .requestMatchers(HttpMethod.DELETE, "/api/boletins/**").hasRole("ADMIN")
-                .anyRequest().authenticated() // Todas as outras requisições precisam de autenticação
+                .requestMatchers("/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll() 
+                .requestMatchers(HttpMethod.GET, "/api/boletins", "/api/boletins/**").permitAll() 
+                .anyRequest().authenticated() 
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         
@@ -50,12 +45,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 }
