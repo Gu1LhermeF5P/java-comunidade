@@ -1,4 +1,4 @@
-package com.comu.entity; 
+package com.comu.comunidade_java.entity; 
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
