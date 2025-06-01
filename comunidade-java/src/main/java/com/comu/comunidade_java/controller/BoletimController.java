@@ -45,7 +45,6 @@ public class BoletimController {
         BoletimResponseDTO createdBoletim = boletimService.create(boletimRequestDTO);
         return new ResponseEntity<>(createdBoletim, HttpStatus.CREATED);
     }
-
     @Operation(summary = "Atualiza um boletim")
     @PutMapping("/{id}")
     public ResponseEntity<BoletimResponseDTO> updateBoletim(@PathVariable Long id, @Valid @RequestBody BoletimRequestDTO boletimRequestDTO) {

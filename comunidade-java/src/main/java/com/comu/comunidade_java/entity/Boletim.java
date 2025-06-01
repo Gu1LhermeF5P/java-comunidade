@@ -1,4 +1,4 @@
-package com.comu.comunidade_java.entity; 
+package com.comu.comunidade_java.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class Boletim {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Para Oracle, pode preferir SEQUENCE
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Long id;
 
     @NotBlank(message = "Remetente é obrigatório")
@@ -35,7 +35,8 @@ public class Boletim {
     private String location;
 
     @NotBlank(message = "Conteúdo é obrigatório")
-    @Column(nullable = false, columnDefinition = "TEXT") // Oracle usa CLOB para TEXT longo
+    @Lob // Indica que é um Large Object, o Hibernate deve mapear para CLOB no Oracle
+    @Column(nullable = false) 
     private String content;
 
     @NotBlank(message = "Gravidade é obrigatória")

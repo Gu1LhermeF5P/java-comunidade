@@ -69,7 +69,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleGlobalException(Exception ex, WebRequest request) {
-        // É uma boa prática logar a stack trace completa aqui
+        
         ex.printStackTrace(); 
         
         Map<String, Object> body = new HashMap<>();
