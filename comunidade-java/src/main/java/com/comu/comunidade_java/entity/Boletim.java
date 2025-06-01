@@ -2,10 +2,13 @@ package com.comu.comunidade_java.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import lombok.ToString; 
+import lombok.EqualsAndHashCode; 
 import java.time.LocalDateTime;
 
 @Entity
@@ -19,11 +22,6 @@ public class Boletim {
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Long id;
 
-    @NotBlank(message = "Remetente é obrigatório")
-    @Size(min = 2, max = 100, message = "Remetente deve ter entre 2 e 100 caracteres")
-    @Column(nullable = false, length = 100)
-    private String sender;
-
     @NotBlank(message = "Título é obrigatório")
     @Size(min = 5, max = 150, message = "Título deve ter entre 5 e 150 caracteres")
     @Column(nullable = false, length = 150)
@@ -35,7 +33,7 @@ public class Boletim {
     private String location;
 
     @NotBlank(message = "Conteúdo é obrigatório")
-    @Lob // Indica que é um Large Object, o Hibernate deve mapear para CLOB no Oracle
+    @Lob 
     @Column(nullable = false) 
     private String content;
 
@@ -45,6 +43,14 @@ public class Boletim {
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime timestamp;
+
+    // Assumindo que o relacionamento com User já estava como abaixo
+    @ManyToOne(fetch = FetchType.LAZY) 
+    @JoinColumn(name = "user_id", nullable = false) 
+    @NotNull(message = "O utilizador criador do boletim é obrigatório")
+    @ToString.Exclude 
+    @EqualsAndHashCode.Exclude 
+    private User user; 
 
     @PrePersist
     protected void onCreate() {

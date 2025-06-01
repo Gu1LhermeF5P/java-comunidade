@@ -22,7 +22,6 @@ public class BoletimService {
     private BoletimResponseDTO convertToResponseDTO(Boletim boletim) {
         BoletimResponseDTO dto = new BoletimResponseDTO();
         dto.setId(boletim.getId());
-        dto.setSender(boletim.getSender());
         dto.setTitle(boletim.getTitle());
         dto.setLocation(boletim.getLocation());
         dto.setContent(boletim.getContent());
@@ -33,7 +32,6 @@ public class BoletimService {
 
     private Boletim convertToEntity(BoletimRequestDTO dto) {
         Boletim boletim = new Boletim();
-        boletim.setSender(dto.getSender());
         boletim.setTitle(dto.getTitle());
         boletim.setLocation(dto.getLocation());
         boletim.setContent(dto.getContent());
@@ -79,7 +77,6 @@ public class BoletimService {
         Boletim existingBoletim = boletimRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Boletim não encontrado para atualização com id: " + id));
 
-        existingBoletim.setSender(boletimRequestDTO.getSender());
         existingBoletim.setTitle(boletimRequestDTO.getTitle());
         existingBoletim.setLocation(boletimRequestDTO.getLocation());
         existingBoletim.setContent(boletimRequestDTO.getContent());
