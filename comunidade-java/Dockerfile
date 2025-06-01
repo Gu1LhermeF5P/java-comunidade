@@ -9,8 +9,10 @@ WORKDIR /app
 # Copiar o ficheiro JAR para dentro do contentor
 COPY ${JAR_FILE} app.jar
 
+RUN apt-get install maven -y
+RUN mvn clean install 
 # A porta será definida pela variável de ambiente PORT fornecida pelo Render
-# EXPOSE 8080 (O Render define a porta via variável de ambiente $PORT, geralmente 10000)
+EXPOSE 8080 
 
 # Comando para executar a aplicação
 ENTRYPOINT ["java","-jar","/app.jar"]
