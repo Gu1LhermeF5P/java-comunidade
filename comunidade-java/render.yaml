@@ -1,15 +1,13 @@
 services:
   - type: web
     name: comunidade-api-java
-    env: java # Indica ao Render para usar o ambiente Java
-    buildCommand: "./mvnw clean package -DskipTests" # Comando para construir o JAR
-    startCommand: "java -Dserver.port=${PORT} -jar target/comunidade-java-0.0.1-SNAPSHOT.jar" # Comando para iniciar
-    envVars: # As suas variáveis de ambiente
+    env: java 
+    buildCommand: "./mvnw clean package -DskipTests" 
+    startCommand: "java -Dserver.port=${PORT} -jar target/comunidade-java-0.0.1-SNAPSHOT.jar" 
+    envVars: 
       - key: SPRING_DATASOURCE_URL
         value: jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL
       - key: DB_USERNAME
-        value: SEU_RM_AQUI 
+        value: RM555287  
       - key: DB_PASSWORD
-        value: SUA_SENHA_AQUI
-      - key: JWT_SECRET
-        value: SEU_SEGREDO_FORTE_AQUI
+        value: 251005
